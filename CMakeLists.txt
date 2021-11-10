@@ -1,34 +1,31 @@
-cmake_minimum_required(VERSION 3.17)
-#set(CMAKE_GENERATOR_PLATFORM win32)
-project(DemonWare)
+cmake_minimum_required(VERSION 3.20)
+project(demonware LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(MASTER_PROJECT OFF)
+# Determine if we're built as a subproject (using add_subdirectory)
+# or if this is the master project.
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(MASTER_PROJECT ON)
+endif()
 
-# This function should be passed a list of all files in a target. It will automatically generate
-# file groups following the directory hierarchy, so that the layout of the files in IDEs matches the
-# one in the filesystem.
-function(create_target_directory_groups target_name)
-    # Place any files that aren't in the source list in a separate group so that they don't get in
-    # the way.
-    source_group("Other Files" REGULAR_EXPRESSION ".")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-    get_target_property(target_sources "${target_name}" SOURCES)
-
+# source_group following the directory hierarchy
+function(add_virtual_path target_name)
+    get_target_property(target_sources  "${target_name}" SOURCES)
     foreach(file_name IN LISTS target_sources)
         get_filename_component(dir_name "${file_name}" PATH)
-        # Group names use '\' as a separator even though the entire rest of CMake uses '/'...
         string(REPLACE "/" "\\" group_name "${dir_name}")
         source_group("${group_name}" FILES "${file_name}")
     endforeach()
 endfunction()
 
-include_directories(.)
+file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
 
-add_subdirectory(bdConnection)
-add_subdirectory(bdCore)
-add_subdirectory(bdLobby)
-add_subdirectory(bdNet)
-add_subdirectory(bdPlatform)
-add_subdirectory(bdSocket)
+add_library(demonware STATIC
+    ${SRC}
+)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_virtual_path(demonware)
