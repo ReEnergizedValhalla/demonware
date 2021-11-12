@@ -22,10 +22,17 @@ function(add_virtual_path target_name)
     endforeach()
 endfunction()
 
+include_directories(.)
+
 file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
 
 add_library(demonware STATIC
     ${SRC}
 )
+
+target_compile_definitions(demonware PUBLIC
+    "_DEBUG"
+    "_WINDOWS;"
+    "_CRT_SECURE_NO_WARNINGS;")
 
 add_virtual_path(demonware)
