@@ -1,17 +1,36 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
 
-#ifdef    __UNIMPLEMENTED__
-
-// bdsingleton.h:0x567DF0
-void __thiscall bdSingletonRegistryImpl::bdSingletonRegistryImpl(bdSingletonRegistryImpl *this)
+template<typename T>
+class bdSingleton
 {
-  this->__vftable = (bdSingletonRegistryImpl_vtbl *)&bdSingletonRegistryImpl::`vftable';
-  this->m_destroyFunctions.m_data = 0;
-  this->m_destroyFunctions.m_capacity = 0;
-  this->m_destroyFunctions.m_size = 0;
-  if ( this->m_destroyFunctions.m_capacity )
-    this->m_destroyFunctions.m_data = (void (__cdecl **)())bdMemory::allocate(4 * this->m_destroyFunctions.m_capacity);
-  this->m_cleaningUp = 0;
-}
+protected:
+	T* m_instance;
+public:
+	T* getInstance()
+	{
+		T* instance;
+		void(*destructor)();
+		bdSingletonRegistryImpl* singletonInstance;
 
-#endif // __UNIMPLEMENTED__
+		if (!m_instance)
+		{
+			instance = bdMemory::allocate(sizeof(T));
+			if (instance)
+			{
+				instance = new T();
+			}
+			else
+			{
+				instance = 0;
+			}
+
+			m_instance = instance;
+			if (instance)
+			{
+				destructor = destroyInstance;
+				// FINISH!!!
+			}
+		}
+	}
+	T* destroyInstance();
+};

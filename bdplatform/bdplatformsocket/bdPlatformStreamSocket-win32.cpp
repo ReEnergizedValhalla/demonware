@@ -1,6 +1,7 @@
 #include "bdPlatformStreamSocket.h"
 #include <bdPlatform/bdPlatform.h>
 
+#include <bdCore/bdSocket/bdInetAddr.h>
 #include "bdPlatformSocket.h"
 #include "bdInAddr.h"
 
@@ -17,7 +18,7 @@ SOCKET bdPlatformStreamSocket::create(bool blocking)
 	return s;
 }
 
-bdSocketStatusCode bdPlatformStreamSocket::_connect(SOCKET handle, bdInAddr addr, unsigned short port)
+bdSocketStatusCode bdPlatformStreamSocket::connect(SOCKET handle, bdInAddr addr, unsigned short port)
 {
 	sockaddr_in remoteAddr;
 
@@ -25,7 +26,7 @@ bdSocketStatusCode bdPlatformStreamSocket::_connect(SOCKET handle, bdInAddr addr
 	remoteAddr.sin_family = AF_INET;
 	remoteAddr.sin_addr = *(in_addr*)&addr;
 	remoteAddr.sin_port = htons(port);
-	if (connect(handle, (SOCKADDR*)&remoteAddr, sizeof(remoteAddr)))
+	if (::connect(handle, (SOCKADDR*)&remoteAddr, sizeof(remoteAddr)))
 	{
 		return BD_NET_SUCCESS;
 	}
@@ -123,12 +124,13 @@ bool bdPlatformStreamSocket::isWritable(SOCKET handle, bdSocketStatusCode* error
 
 bool bdPlatformStreamSocket::getSocketAddr(SOCKET handle, bdInAddr* socketAddr)
 {
-	bdInetAddr retrievedAddr;
-	sockaddr name;
+	sockaddr_in retrievedAddr;
 	int length = 16;
 
-	if (getsockname(handle, &name, &length) == -1)
+	if (getsockname(handle, (sockaddr*)&retrievedAddr, &length) == -1)
 	{
 		return 0;
 	}
+	*socketAddr = *(bdInAddr*)&retrievedAddr.sin_addr;
+	return 1;
 }

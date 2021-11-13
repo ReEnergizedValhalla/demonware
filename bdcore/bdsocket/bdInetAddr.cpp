@@ -1,6 +1,7 @@
 #include "bdInetAddr.h"
 
 #include <bdPlatform/bdPlatform.h>
+#include <bdCore/bdUtilities/bdBytePacker.h>
 
 bool bdInetAddr::operator==(bdInetAddr* comp)
 {
@@ -82,16 +83,16 @@ unsigned int bdInetAddr::toString(char* str, unsigned int size)
 
 bdInAddr bdInetAddr::getInAddr()
 {
-	return bdInAddr();
+	return m_addr;
 }
 
 bool bdInetAddr::serialize(char* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
 {
-	return false;
+	return bdBytePacker::appendBuffer(data, size, offset, newOffset, &m_addr, sizeof(m_addr));
 }
 
 bool bdInetAddr::deserialize(char* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
 {
-	return false;
+	return bdBytePacker::removeBuffer(data, size, offset, newOffset, &m_addr, sizeof(m_addr));
 }
 

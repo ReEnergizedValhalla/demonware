@@ -1,5 +1,7 @@
 #pragma once
 
+typedef unsigned int SOCKET;
+
 enum bdSocketStatusCode
 {
 	BD_NET_SUCCESS = 0x1,
@@ -17,4 +19,20 @@ enum bdSocketStatusCode
 	BD_NET_NOT_CONNECTED = 0xFFFFFFF5,
 	BD_NET_CONNECTION_REFUSED = 0xFFFFFFF4,
 	BD_NET_HOST_UNREACH = 0xFFFFFFF3,
+};
+
+class bdPlatformSocket
+{
+private:
+	static __int64 m_totalBytesSent;
+	static __int64 m_totalPacketsSent;
+	static __int64 m_totalBytesRecvd;
+	static __int64 m_totalPacketsRecvd;
+public:
+	static SOCKET create(bool blocking, bool broadcast);
+	static int bind(int* handle, class bdInAddr addr, unsigned short port);
+	static int sendTo(SOCKET handle, class bdInAddr addr, unsigned short port, char* data, unsigned int len);
+	static int receiveFrom(SOCKET handle, class bdInAddr* addr, unsigned short* port, void* data, unsigned int len);
+	static bool close(int* handle);
+	static unsigned int getHostByName(const char* name, class bdInAddr* addresses, int numAddresses);
 };

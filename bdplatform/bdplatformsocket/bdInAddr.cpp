@@ -23,8 +23,5 @@ int bdInAddr::toString(char* str, unsigned int size)
 		bdStrlcpy(str, src, size);
 		return strlen(str);
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
 }
