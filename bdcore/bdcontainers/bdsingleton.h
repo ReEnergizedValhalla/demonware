@@ -1,5 +1,16 @@
 #pragma once
 
+// forward declaration
+template <typename T>
+class bdFastArray;
+
+class bdSingletonRegistryImpl
+{
+public:
+	bdFastArray<void(__cdecl*)(void)> m_destoryFunctions;
+	bool m_cleaningUp;
+};
+
 template<typename T>
 class bdSingleton
 {
@@ -28,9 +39,36 @@ public:
 			if (instance)
 			{
 				destructor = destroyInstance;
-				// FINISH!!!
+				singletonInstance = bdSingleton<bdSingletonRegistryImpl>::getInstance();
+
+				if (!singletonInstance->m_cleaningUp)
+				{
+					singletonInstance->m_destoryFunctions.pushBack(&destructor);
+				}
+
+				if (!!singletonInstance->m_cleaningUp)
+				{
+					if (m_instance)
+					{
+						delete m_instance;
+					}
+					m_instance = 0;
+					DebugBreak();
+				}
+			}
+			else
+			{
+				DebugBreak()
 			}
 		}
+		return m_instance;
 	}
-	T* destroyInstance();
+	T* destroyInstance()
+	{
+		if (m_instance)
+		{
+			delete m_instance;
+			m_instance = 0;
+		}
+	}
 };

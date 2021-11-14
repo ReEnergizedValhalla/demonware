@@ -1,6 +1,9 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 #pragma once
+
+#include <bdCore/bdThread/bdMutex.h>
+#include <bdPlatform/bdPlatform.h>
+
+static bdMutex g_MemoryThreadLock;
 
 static class bdMemory
 {
@@ -24,12 +27,12 @@ public:
     void alignedDeallocate(void*); // Not used
     void* alignedReallocate(void*, const unsigned int, const unsigned int); // Not used
 protected:
-    void* (*m_allocateFunc)(const unsigned int);
-    void (*m_deallocateFunc)(void*);
-    void* (*m_reallocateFunc)(void*, const unsigned int);
-    void* (*m_alignedAllocateFunc)(const unsigned int, const unsigned int);
-    void (*m_alignedDeallocateFunc)(void*);
-    void* (*m_alignedReallocateFunc)(void*, const unsigned int, const unsigned int);
+    static void* (*m_allocateFunc)(const unsigned int);
+	static void (*m_deallocateFunc)(void*);
+	static void* (*m_reallocateFunc)(void*, const unsigned int);
+	static void* (*m_alignedAllocateFunc)(const unsigned int, const unsigned int);
+	static void (*m_alignedDeallocateFunc)(void*);
+	static void* (*m_alignedReallocateFunc)(void*, const unsigned int, const unsigned int);
 private:
     bdMemory();
 };

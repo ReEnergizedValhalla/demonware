@@ -2,10 +2,11 @@
 
 #include <bdPlatform/bdPlatform.h>
 
-namespace bdPlatformMutex
+class bdPlatformMutex
 {
-	HANDLE createMutex();
-	void unlock(void** handle);
-	void destroy(void** handle);
-	void lock(void** handle);
+public:
+	static HANDLE createMutex();
+	static void unlock(void** handle);
+	static void destroy(void** handle);
+	static void lock(void** handle);
 };
