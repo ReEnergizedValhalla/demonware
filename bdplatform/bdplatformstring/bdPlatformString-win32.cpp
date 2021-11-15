@@ -1,7 +1,5 @@
 #include "bdPlatformString.h"
 
-#include <bdPlatform/bdPlatform.h>
-
 unsigned int bdStrGetToken(const char* str, const char* delimeters, char* tokenBuffer, unsigned int tokenBufferSize, const char** end)
 {
 	int tokenSize;
@@ -28,7 +26,7 @@ unsigned int bdStrGetToken(const char* str, const char* delimeters, char* tokenB
 	return offset;
 }
 
-bool bdDelimSubstr(char* str, char* substr, const char* delimeters)
+bool bdDelimSubstr(const char* str, const char* substr, const char* delimeters)
 {
 	bool isSubStr = true;
 	char subStrToken[68];
@@ -52,4 +50,5 @@ bool bdDelimSubstr(char* str, char* substr, const char* delimeters)
 			break;
 		}
 	}
+	return isSubStr;
 }

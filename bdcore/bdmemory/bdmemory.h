@@ -8,24 +8,24 @@ static bdMutex g_MemoryThreadLock;
 static class bdMemory
 {
 public:
-    void setAllocateFunc(void* (*allocator)(const unsigned int));
-    void setDeallocateFunc(void  (*deallocator)(void*));
-    void setReallocateFunc(void* (*reallocator)(void*, const unsigned int));
-    void setAlignedAllocateFunc(void* (*allocator)(const unsigned int, const unsigned int));
-    void setAlignedDeallocateFunc(void  (*deallocator)(void*));
-    void setAlignedReallocateFunc(void* (*reallocator)(void*, const unsigned int, const unsigned int));
-    void* (*getAllocateFunc())(const unsigned int);
-    void (*getDeallocateFunc())(void*);
-    void* (*getReallocateFunc())(void*, const unsigned int);
-    void* (*getAlignedAllocateFunc())(const unsigned int, const unsigned int);
-    void (*getAlignedDeallocateFunc())(void*);
-    void* (*getAlignedReallocateFunc())(void*, const unsigned int, const unsigned int);
-    void* allocate(const unsigned int size);
-    void deallocate(void* p);
-    void* reallocate(void* p, const unsigned int size);
-    void* alignedAllocate(const unsigned int, const unsigned int); // Not used
-    void alignedDeallocate(void*); // Not used
-    void* alignedReallocate(void*, const unsigned int, const unsigned int); // Not used
+    static void setAllocateFunc(void* (*allocator)(const unsigned int));
+    static void setDeallocateFunc(void  (*deallocator)(void*));
+    static void setReallocateFunc(void* (*reallocator)(void*, const unsigned int));
+    static void setAlignedAllocateFunc(void* (*allocator)(const unsigned int, const unsigned int));
+    static void setAlignedDeallocateFunc(void  (*deallocator)(void*));
+    static void setAlignedReallocateFunc(void* (*reallocator)(void*, const unsigned int, const unsigned int));
+    static void* (*getAllocateFunc())(const unsigned int);
+    static void (*getDeallocateFunc())(void*);
+    static void* (*getReallocateFunc())(void*, const unsigned int);
+    static void* (*getAlignedAllocateFunc())(const unsigned int, const unsigned int);
+    static void (*getAlignedDeallocateFunc())(void*);
+    static void* (*getAlignedReallocateFunc())(void*, const unsigned int, const unsigned int);
+    static void* allocate(const unsigned int size);
+    static void deallocate(void* p);
+    static void* reallocate(void* p, const unsigned int size);
+    static  void* alignedAllocate(const unsigned int, const unsigned int); // Not used
+    static void alignedDeallocate(void*); // Not used
+    static void* alignedReallocate(void*, const unsigned int, const unsigned int); // Not used
 protected:
     static void* (*m_allocateFunc)(const unsigned int);
 	static void (*m_deallocateFunc)(void*);

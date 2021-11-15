@@ -1,5 +1,10 @@
 #include "bdMallocMemory.h"
 
+#include "bdAlignedOffsetMemory.h"
+#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
+
+#define BD_MEMORY_MAGIC 0xBDBD
+
 bdMallocMemory::bdMemoryChainElement* bdMallocMemory::recordMemory(bdMallocMemory::bdMemoryChainElement* link, unsigned int size, bool aligned)
 {
 	if (!link)
@@ -7,7 +12,7 @@ bdMallocMemory::bdMemoryChainElement* bdMallocMemory::recordMemory(bdMallocMemor
 		return 0;
 	}
 	m_mutex.lock();
-	link->m_magic = 0xBDBD;
+	link->m_magic = BD_MEMORY_MAGIC;
 	link->m_size = size;
 	link->m_aligned = aligned;
 	link->m_next = m_memoryChain;
@@ -25,28 +30,83 @@ bdMallocMemory::bdMemoryChainElement* bdMallocMemory::recordMemory(bdMallocMemor
 
 void bdMallocMemory::eraseMemory(bdMemoryChainElement* link)
 {
+	m_mutex.lock();
+	if (link->m_magic != BD_MEMORY_MAGIC)
+	{
+		m_mutex.unlock();
+		bdLogMessage(BD_LOG_ERROR, "err/", "mallocmemory", __FILE__, __FUNCTION__, __LINE__, " BD_MEMORY_MAGIC is incorrect.");
+		m_mutex.lock();
+	}
+
+	if (link->m_prev)
+	{
+		link->m_prev->m_next = link->m_next;
+	}
+	else
+	{
+		m_memoryChain = link->m_next;
+	}
+
+	if (link->m_next)
+	{
+		link->m_next->m_prev = link->m_prev;
+	}
+	m_allocatedBytes -= link->m_size;
+	--m_numAllocations;
+	m_mutex.unlock();
 }
 
 bdMallocMemory::bdMemoryChainElement* bdMallocMemory::allocate(unsigned int size)
 {
-	return nullptr;
+	bdMemoryChainElement* alloc;
+
+	alloc = (bdMemoryChainElement*)bdAlignedOffsetMalloc(size + sizeof(bdMemoryChainElement), 8, sizeof(bdMemoryChainElement));
+	return recordMemory(alloc, size, 0);
 }
 
 bdMallocMemory::bdMemoryChainElement* bdMallocMemory::reallocate(void* p, unsigned int size)
 {
-	return nullptr;
+	void* realloc;
+	unsigned int origSize;
+
+	if (p)
+	{
+		origSize = *((unsigned int*)p - 4) + sizeof(bdMemoryChainElement);
+		eraseMemory((bdMemoryChainElement*)p - 1);
+		realloc = bdAlignedOffsetRealloc((char*)p - sizeof(bdMemoryChainElement), origSize, size + sizeof(bdMemoryChainElement), 8, sizeof(bdMemoryChainElement));
+		return recordMemory((bdMemoryChainElement*)realloc, size, 0);
+	}
+	return allocate(size);
 }
 
 bdMallocMemory::bdMemoryChainElement* bdMallocMemory::alignedAllocate(unsigned int size, unsigned int align)
 {
-	return nullptr;
+	bdMemoryChainElement* alloc;
+
+	alloc = (bdMemoryChainElement*)bdAlignedOffsetMalloc(size + sizeof(bdMemoryChainElement), align, sizeof(bdMemoryChainElement));
+	return recordMemory(alloc, size, 1);
 }
 
 void bdMallocMemory::deallocate(void* p)
 {
+	if (p)
+	{
+		eraseMemory((bdMemoryChainElement*)p - 1);
+		bdAlignedOffsetFree((char*)p - sizeof(bdMemoryChainElement));
+	}
 }
 
 bdMallocMemory::bdMemoryChainElement* bdMallocMemory::alignedReallocate(void* p, unsigned int size, unsigned int align)
 {
-	return nullptr;
+	unsigned int origSize;
+	void* realloc;
+
+	if (p)
+	{
+		origSize = *((unsigned int*)p - 4) + 20;
+		eraseMemory((bdMemoryChainElement*)p - 1);
+		realloc = bdAlignedOffsetRealloc((char*)p - sizeof(bdMemoryChainElement), origSize, size + sizeof(bdMemoryChainElement), align, sizeof(bdMemoryChainElement));
+		return recordMemory((bdMemoryChainElement*)realloc, size, 1);
+	}
+	return alignedAllocate(size, align);
 }

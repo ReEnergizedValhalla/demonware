@@ -2,6 +2,7 @@
 
 #include <bdPlatform/bdPlatform.h>
 #include <bdPlatform/bdPlatformTiming/bdPlatformTiming.h>
+#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
 
 bdRandom::bdRandom()
 {
@@ -36,7 +37,7 @@ void bdRandom::setSeed(unsigned int seed)
 	m_val = seed;
 	if (!seed)
 	{
-		//bdLogMessage(BD_LOG_WARNING, "warn/", "random", __FILE__, __FUNCTION__, __LINE__, "Shouldn't use 0 for seed. 12,195,257 used instead.");
+		bdLogMessage(BD_LOG_WARNING, "warn/", "random", __FILE__, __FUNCTION__, __LINE__, "Shouldn't use 0 for seed. 12,195,257 used instead.");
 		m_val = 12195257;
 	}
 }

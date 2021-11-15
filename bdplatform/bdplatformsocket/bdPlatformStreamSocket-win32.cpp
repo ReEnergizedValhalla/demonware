@@ -2,6 +2,7 @@
 #include <bdPlatform/bdPlatform.h>
 
 #include <bdCore/bdSocket/bdInetAddr.h>
+#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
 #include "bdPlatformSocket.h"
 #include "bdInAddr.h"
 
@@ -58,10 +59,10 @@ bool bdPlatformStreamSocket::close(SOCKET handle)
 	case 0:
 		return true;
 	case -1:
-		//bdLogMessage(BD_LOG_WARNING, "warn/", "platform stream socket", __FILE__, "bdPlatformStreamSocket::close", __LINE__, "Failed to close socket Error %i.", WSAGetLastError());
+		bdLogMessage(BD_LOG_WARNING, "warn/", "platform stream socket", __FILE__, "bdPlatformStreamSocket::close", __LINE__, "Failed to close socket Error %i.", WSAGetLastError());
 		break;
 	default:
-		//bdLogMessage(BD_LOG_WARNING, "warn/", "platform stream socket", __FILE__, "bdPlatformStreamSocket::close", __LINE__, "Failed to close socket. Unknown Error Code.");
+		bdLogMessage(BD_LOG_WARNING, "warn/", "platform stream socket", __FILE__, "bdPlatformStreamSocket::close", __LINE__, "Failed to close socket. Unknown Error Code.");
 		break;
 	}
 	return false;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bdPlatform/bdPlatform.h>
+
 class bdPlatformTiming
 {
 public:

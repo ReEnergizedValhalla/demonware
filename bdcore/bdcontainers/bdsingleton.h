@@ -1,8 +1,6 @@
 #pragma once
 
-// forward declaration
-template <typename T>
-class bdFastArray;
+#include <bdCore/bdContainers/bdFastArray.h>
 
 class bdSingletonRegistryImpl
 {

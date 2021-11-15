@@ -1,6 +1,7 @@
 #include "bdBytePacker.h"
 
 #include <bdPlatform/bdPlatform.h>
+#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
 
 bool bdBytePacker::appendBuffer(char* dest, unsigned int destSize, unsigned int offset, unsigned int* newOffset, void* src, unsigned int writeSize)
 {
@@ -10,7 +11,7 @@ bool bdBytePacker::appendBuffer(char* dest, unsigned int destSize, unsigned int 
 	{
 		if (*newOffset > destSize)
 		{
-			//bdLogMessage(BD_LOG_WARNING, "warn/", "byte packer", __FILE__, "bdBytePacker::appendBuffer", __LINE__, "Not enough room left to write %u bytes.", writeSize);
+			bdLogMessage(BD_LOG_WARNING, "warn/", "byte packer", __FILE__, "bdBytePacker::appendBuffer", __LINE__, "Not enough room left to write %u bytes.", writeSize);
 		}
 
 		if (offset <= destSize && *newOffset <= destSize)
@@ -52,7 +53,7 @@ bool bdBytePacker::removeBuffer(char* src, unsigned int srcSize, unsigned int of
 	{
 		if (*newOffset > srcSize)
 		{
-			//bdLogMessage(BD_LOG_WARNING, "warn/", "byte packer", __FILE__, __FUNCTION__, __LINE__, "Not enough data left to read %u bytes.", readSize);
+			bdLogMessage(BD_LOG_WARNING, "warn/", "byte packer", __FILE__, __FUNCTION__, __LINE__, "Not enough data left to read %u bytes.", readSize);
 		}
 
 		if ((*newOffset <= srcSize) && offset <= srcSize)

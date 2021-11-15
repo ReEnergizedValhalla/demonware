@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bdPlatform/bdPlatform.h>
+
 inline static unsigned int bdStrlcpy(char* dst, const char* src, size_t size)
 {
     unsigned int slen;
@@ -18,4 +20,4 @@ inline static unsigned int bdStrlcpy(char* dst, const char* src, size_t size)
 }
 
 unsigned int bdStrGetToken(const char* str, const char* delimeters, char* tokenBuffer, unsigned int tokenBufferSize, const char** end);
-bool bdDelimSubstr(char* str, char* substr, const char* delimeters);
+bool bdDelimSubstr(const char* str, const char* substr, const char* delimeters);

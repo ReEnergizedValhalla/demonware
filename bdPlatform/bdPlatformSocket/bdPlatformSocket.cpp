@@ -1,6 +1,7 @@
 #include "bdPlatformSocket.h"
 
 #include <bdPlatform/bdPlatform.h>
+#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
 #include "bdInAddr.h"
 
 SOCKET bdPlatformSocket::create(bool blocking, bool broadcast)
@@ -42,7 +43,7 @@ int bdPlatformSocket::bind(int* handle, bdInAddr addr, unsigned short port)
 	{
 		return BD_NET_SUCCESS;
 	}
-	//bdLogMessage(BD_LOG_WARNING, "warn/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "Call to bind() failed, WSAGetLastError: %d", WSAGetLastError());
+	bdLogMessage(BD_LOG_WARNING, "warn/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "Call to bind() failed, WSAGetLastError: %d", WSAGetLastError());
 	closesocket(*handle);
 	if (WSAGetLastError() == 10013 || 10047 || 10049)
 	{
@@ -84,7 +85,7 @@ int bdPlatformSocket::sendTo(SOCKET handle, bdInAddr addr, unsigned short port, 
 		case WSAEMSGSIZE:
 			return BD_NET_MSG_SIZE;
 		case WSAEHOSTUNREACH:
-			//bdLogMessage(BD_LOG_INFO, "info/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "send: Received connection reset : %i", BD_NET_CONNECTION_RESET);
+			bdLogMessage(BD_LOG_INFO, "info/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "send: Received connection reset : %i", BD_NET_CONNECTION_RESET);
 			return BD_NET_CONNECTION_RESET;
 		default:
 			return BD_NET_ERROR;
@@ -126,7 +127,7 @@ int bdPlatformSocket::receiveFrom(SOCKET handle, bdInAddr* addr, unsigned short*
 		case WSAEMSGSIZE:
 			return BD_NET_MSG_SIZE;
 		case WSAEHOSTUNREACH:
-			//bdLogMessage(BD_LOG_INFO, "info/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "recv: Received connection reset : %i", BD_NET_CONNECTION_RESET);
+			bdLogMessage(BD_LOG_INFO, "info/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "recv: Received connection reset : %i", BD_NET_CONNECTION_RESET);
 			*port = ntohs(remoteAddr.sin_port);
 			*addr = *(bdInAddr*)&remoteAddr.sin_addr;
 			return BD_NET_CONNECTION_RESET;
@@ -171,7 +172,7 @@ unsigned int bdPlatformSocket::getHostByName(const char* name, bdInAddr* address
 		}
 		else
 		{
-			//bdLogMessage(BD_LOG_WARNING, "warn/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "gethostbyname: Error : %i", WSAGetLastError());
+			bdLogMessage(BD_LOG_WARNING, "warn/", "platform/socket", __FILE__, __FUNCTION__, __LINE__, "gethostbyname: Error : %i", WSAGetLastError());
 			return 0;
 		}
 	}

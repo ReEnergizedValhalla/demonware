@@ -1,30 +1,25 @@
 
 #include "bdPlatformMutex.h"
 
-namespace bdPlatformMutex
-{
-
 #ifdef _WINDOWS
-	HANDLE createMutex()
+	HANDLE bdPlatformMutex::createMutex()
 	{
 		return CreateMutex(0, 0, 0);
 	}
 
-	void unlock(void** handle)
+	void bdPlatformMutex::unlock(void** handle)
 	{
 		ReleaseMutex(*handle);
 	}
 
-	void destroy(void** handle)
+	void bdPlatformMutex::destroy(void** handle)
 	{
 		ReleaseMutex(*handle);
 		CloseHandle(*handle);
 	}
 
-	void lock(void** handle)
+	void bdPlatformMutex::lock(void** handle)
 	{
 		WaitForSingleObject(*handle, -1);
 	}
 #endif
-
-}

@@ -1,7 +1,5 @@
 #include "bdPlatformTiming.h"
 
-#include <bdPlatform/bdPlatform.h>
-
 LARGE_INTEGER bdPlatformTiming::getHiResTimeStamp()
 {
 	LARGE_INTEGER time;
