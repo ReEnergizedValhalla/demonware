@@ -36,7 +36,7 @@ add_compile_options(
 
 file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
 
-add_library(demonware STATIC
+add_executable(demonware WIN32
     ${SRC}
 )
 
