@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bdPlatform/bdPlatformSocket/bdInAddr.h>
+#include "bdPlatform/bdPlatformSocket/bdInAddr.h"
 
 class bdInetAddr
 {

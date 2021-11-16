@@ -1,6 +1,6 @@
 #include "bdAlignedOffsetMemory.h"
 
-#include <bdPlatform/bdPlatform.h>
+#include "bdPlatform/bdPlatform.h"
 
 void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset)
 {

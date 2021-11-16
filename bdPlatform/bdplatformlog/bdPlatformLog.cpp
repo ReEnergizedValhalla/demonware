@@ -1,7 +1,7 @@
 #include "bdPlatformLog.h"
 
-#include <bdPlatform/bdPlatform.h>
-#include <bdPlatform/bdPlatformString/bdPlatformString.h>
+#include "bdPlatform/bdPlatform.h"
+#include "bdPlatform/bdPlatformString/bdPlatformString.h"
 
 #include <stdio.h>
 

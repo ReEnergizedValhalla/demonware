@@ -1,8 +1,8 @@
 #include "bdRandom.h"
 
-#include <bdPlatform/bdPlatform.h>
-#include <bdPlatform/bdPlatformTiming/bdPlatformTiming.h>
-#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
+#include "bdPlatform/bdPlatform.h"
+#include "bdPlatform/bdPlatformTiming/bdPlatformTiming.h"
+#include "bdPlatform/bdPlatformLog/bdPlatformLog.h"
 
 bdRandom::bdRandom()
 {

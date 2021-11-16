@@ -1,7 +1,7 @@
 #include "bdMallocMemory.h"
 
 #include "bdAlignedOffsetMemory.h"
-#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
+#include "bdPlatform/bdPlatformLog/bdPlatformLog.h"
 
 #define BD_MEMORY_MAGIC 0xBDBD
 

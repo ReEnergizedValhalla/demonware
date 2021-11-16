@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bdCore/bdThread/bdMutex.h>
+#include "bdCore/bdThread/bdMutex.h"
 
 class bdMallocMemory
 {

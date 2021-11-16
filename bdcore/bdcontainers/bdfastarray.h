@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bdCore/bdmemory/bdmemory.h>
+#include "bdCore/bdmemory/bdmemory.h"
 
 template <typename T>
 class bdFastArray
