@@ -1,0 +1,3 @@
+[submodule "external/libtomcrypt"]
+	path = external/libtomcrypt
+	url = https://github.com/libtom/libtomcrypt
