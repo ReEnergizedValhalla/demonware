@@ -23,6 +23,9 @@ function(add_virtual_path target_name)
 endfunction()
 
 include_directories(.)
+include_directories(external/libtomcrypt/src/headers)
+include_directories(external/curl/include)
+include_directories(external/openssl/include)
 
 file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
 
