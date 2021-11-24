@@ -1,9 +1,0 @@
-[submodule "external/libtomcrypt"]
-	path = external/libtomcrypt
-	url = https://github.com/libtom/libtomcrypt
-[submodule "external/curl"]
-	path = external/curl
-	url = https://github.com/curl/curl
-[submodule "external/openssl"]
-	path = external/openssl
-	url = https://github.com/openssl/openssl
