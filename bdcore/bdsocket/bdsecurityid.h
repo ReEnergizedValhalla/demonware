@@ -1,2 +1,10 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
 
+class bdSecurityID
+{
+public:
+	char ab[8];
+
+	bdSecurityID();
+	bdSecurityID(bdSecurityID* other);
+};

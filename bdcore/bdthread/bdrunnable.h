@@ -7,7 +7,7 @@ public:
 
 	virtual ~bdRunnable();
 	virtual void stop();
-	virtual int run(void*);
+	virtual int run(void*) { return 0; };
 	bdRunnable();
 	void start();
 };

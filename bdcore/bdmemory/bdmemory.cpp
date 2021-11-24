@@ -3,6 +3,13 @@
 #include <bdCore/bdThread/bdMutex.h>
 #include <bdPlatform/bdPlatform.h>
 
+void* (*bdMemory::m_allocateFunc)(const unsigned int) = nullptr;
+void (*bdMemory::m_deallocateFunc)(void*) = nullptr;
+void* (*bdMemory::m_reallocateFunc)(void*, const unsigned int) = nullptr;
+void* (*bdMemory::m_alignedAllocateFunc)(const unsigned int, const unsigned int) = nullptr;
+void (*bdMemory::m_alignedDeallocateFunc)(void*) = nullptr;
+void* (*bdMemory::m_alignedReallocateFunc)(void*, const unsigned int, const unsigned int) = nullptr;
+
 void bdMemory::setAllocateFunc(void* (*allocator)(const unsigned int))
 {
 	m_allocateFunc = allocator;

@@ -23,9 +23,9 @@ public:
     static void* allocate(const unsigned int size);
     static void deallocate(void* p);
     static void* reallocate(void* p, const unsigned int size);
-    static  void* alignedAllocate(const unsigned int, const unsigned int); // Not used
-    static void alignedDeallocate(void*); // Not used
-    static void* alignedReallocate(void*, const unsigned int, const unsigned int); // Not used
+    //static  void* alignedAllocate(const unsigned int, const unsigned int); Not used
+    //static void alignedDeallocate(void*); Not used
+    //static void* alignedReallocate(void*, const unsigned int, const unsigned int); Not used
 protected:
     static void* (*m_allocateFunc)(const unsigned int);
 	static void (*m_deallocateFunc)(void*);
