@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bdCore/bdContainers/bdFastArray.h>
+#include "bdCore/bdContainers/bdFastArray.h"
 
 class bdSingletonRegistryImpl
 {

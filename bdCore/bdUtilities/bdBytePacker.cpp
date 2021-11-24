@@ -1,7 +1,7 @@
 #include "bdBytePacker.h"
 
-#include <bdPlatform/bdPlatform.h>
-#include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
+#include "bdPlatform/bdPlatform.h"
+#include "bdPlatform/bdPlatformLog/bdPlatformLog.h"
 
 bool bdBytePacker::appendBuffer(char* dest, unsigned int destSize, unsigned int offset, unsigned int* newOffset, void* src, unsigned int writeSize)
 {

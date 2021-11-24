@@ -1,7 +1,7 @@
 #include "bdInetAddr.h"
 
-#include <bdPlatform/bdPlatform.h>
-#include <bdCore/bdUtilities/bdBytePacker.h>
+#include "bdPlatform/bdPlatform.h"
+#include "bdCore/bdUtilities/bdBytePacker.h"
 
 bool bdInetAddr::operator==(bdInetAddr* comp)
 {

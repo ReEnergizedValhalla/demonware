@@ -1,9 +1,9 @@
 #include "bdThread.h"
 #include "bdRunnable.h"
 
-#include <bdCore/bdMemory/bdMemory.h>
-#include <bdPlatform/bdPlatformThread/bdPlatformThread.h>
-#include <bdPlatform/bdPlatformThread/bdPlatformMutex.h>
+#include "bdCore/bdMemory/bdMemory.h"
+#include "bdPlatform/bdPlatformThread/bdPlatformThread.h"
+#include "bdPlatform/bdPlatformThread/bdPlatformMutex.h"
 
 bdThread::bdThread(bdRunnable* runnable, int priority, unsigned int stackSize)
 {

@@ -1,7 +1,7 @@
 #include "bdMemory.h"
 
-#include <bdCore/bdThread/bdMutex.h>
-#include <bdPlatform/bdPlatform.h>
+#include "bdCore/bdThread/bdMutex.h"
+#include "bdPlatform/bdPlatform.h"
 
 void* (*bdMemory::m_allocateFunc)(const unsigned int) = nullptr;
 void (*bdMemory::m_deallocateFunc)(void*) = nullptr;

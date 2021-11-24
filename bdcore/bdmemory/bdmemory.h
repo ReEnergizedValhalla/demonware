@@ -1,7 +1,7 @@
 #pragma once
 
-#include <bdCore/bdThread/bdMutex.h>
-#include <bdPlatform/bdPlatform.h>
+#include "bdCore/bdThread/bdMutex.h"
+#include "bdPlatform/bdPlatform.h"
 
 static bdMutex g_MemoryThreadLock;
 

@@ -1,6 +1,6 @@
 #include "bdMutex.h"
 
-#include <bdPlatform/bdPlatformThread/bdPlatformMutex.h>
+#include "bdPlatform/bdPlatformThread/bdPlatformMutex.h"
 
 bdMutex::bdMutex()
 {
