@@ -11,6 +11,7 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+link_directories(external/openssl/lib)
 
 # source_group following the directory hierarchy
 function(add_virtual_path target_name)
@@ -22,10 +23,10 @@ function(add_virtual_path target_name)
     endforeach()
 endfunction()
 
-include_directories(.)
-include_directories(external/libtomcrypt/src/headers)
-include_directories(external/curl/include)
-include_directories(external/openssl/include)
+include_directories(. 
+    external/libtomcrypt/src/headers 
+    external/curl/include 
+    external/openssl/include)
 
 add_compile_options(
     /MP                      # Build with Multiple Processes
@@ -35,6 +36,9 @@ add_compile_options(
 )
 
 file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
+list(FILTER SRC EXCLUDE REGEX "external[\r\n\t ]*build")
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 
 add_executable(demonware WIN32
     ${SRC}
@@ -45,5 +49,7 @@ target_compile_definitions(demonware PUBLIC
     "_WINDOWS"
     "_CRT_SECURE_NO_WARNINGS"
 )
+
+target_link_libraries(demonware libeay32.lib ssleay32.lib ws2_32.lib)
 
 add_virtual_path(demonware)

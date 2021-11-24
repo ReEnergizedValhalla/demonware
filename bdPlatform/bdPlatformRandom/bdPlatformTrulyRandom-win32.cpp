@@ -14,6 +14,15 @@ bdTrulyRandomImpl::~bdTrulyRandomImpl()
 	CryptReleaseContext(phProv, 0);
 }
 
+int bdTrulyRandomImpl::getRandomUInt()
+{
+	return 0;
+}
+
+void bdTrulyRandomImpl::getRandomUByte8()
+{
+}
+
 static bdTrulyRandomImpl s_randomInit = bdTrulyRandomImpl();
 
 void bdGetRandomUChar8(unsigned char* in, int length)

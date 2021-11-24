@@ -4,6 +4,11 @@
 #include <bdPlatform/bdPlatformLog/bdPlatformLog.h>
 #include "bdInAddr.h"
 
+__int64 bdPlatformSocket::m_totalBytesSent = 0;
+__int64 bdPlatformSocket::m_totalPacketsSent = 0;
+__int64 bdPlatformSocket::m_totalBytesRecvd = 0;
+__int64 bdPlatformSocket::m_totalPacketsRecvd = 0;
+
 SOCKET bdPlatformSocket::create(bool blocking, bool broadcast)
 {
 	SOCKET sockBroadcast;

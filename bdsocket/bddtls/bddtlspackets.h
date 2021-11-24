@@ -1,2 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
 
+typedef enum bdDTLSPacketTypes
+{
+	BD_DTLS_NULL,
+	BD_DTLS_INIT,
+	BD_DTLS_INIT_ACK,
+	BD_DTLS_COOKIE_ECHO,
+	BD_DTLS_COOKIE_ACK,
+	BD_DTLS_ERROR,
+	BD_DTLS_DATA,
+};
