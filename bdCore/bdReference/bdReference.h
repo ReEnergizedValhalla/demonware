@@ -14,9 +14,22 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+template <typename T>
+class bdReference
+{
+public:
+	T* m_ptr;
+
+	bdReference(bdReference<T>* other);
+	~bdReference();
+	bdReference(T* p);
+	bdBool notNull();
+
+	T* operator->();
+	void operator=(T* p);
+	T* operator T* ();
+	bdReference<T>* operator=(const bdReference<T>* other);
+	T* operator*();
+};

@@ -14,9 +14,26 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#include "bdMutex.h"
 
-#pragma once
+#include "bdPlatform/bdPlatformThread/bdPlatformMutex.h"
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+bdMutex::bdMutex()
+{
+	m_handle = bdPlatformMutex::createMutex();
+}
+
+bdMutex::~bdMutex()
+{
+	bdPlatformMutex::destroy(&m_handle);
+}
+
+void bdMutex::lock()
+{
+	bdPlatformMutex::lock(&m_handle);
+}
+
+void bdMutex::unlock()
+{
+	bdPlatformMutex::unlock(&m_handle);
+}

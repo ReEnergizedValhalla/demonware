@@ -14,9 +14,14 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+class bdBitOperations
+{
+public:
+	static unsigned int nextPowerOf2(const unsigned int v);
+	static unsigned int highBitNumber(unsigned int v);
+
+	template<typename T>
+	static void endianSwap(const T* src, T* dest);
+};

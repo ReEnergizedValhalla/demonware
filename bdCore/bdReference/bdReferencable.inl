@@ -14,23 +14,41 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "bdRunnable.h"
 
-bdRunnable::~bdRunnable()
+#include "bdPlatform/bdPlatform.h"
+
+#include "bdReferencable.h"
+
+inline bdReferencable::~bdReferencable()
 {
+	delete this;
 }
 
-void bdRunnable::stop()
+inline bdReferencable* bdReferencable::operator=(bdReferencable* a)
 {
-	m_stop = 1;
+	return this;
 }
 
-bdRunnable::bdRunnable()
+inline bdInt bdReferencable::releaseRef()
 {
-	m_stop = 0;
+	return InterlockedDecrement((volatile LONG*)&this->m_refCount) - 1;
 }
 
-void bdRunnable::start()
+inline bdInt bdReferencable::addRef()
 {
-	m_stop = 0;
+	return InterlockedIncrement((volatile LONG*)&this->m_refCount) + 1;
+}
+
+inline bdInt bdReferencable::getRefCount()
+{
+	return this->m_refCount;
+}
+
+inline bdReferencable::bdReferencable()
+{
+	this->m_refCount = 0;
+}
+
+inline void bdReferencable::operator delete(void* p)
+{
 }

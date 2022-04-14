@@ -14,9 +14,32 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+class bdThreadArgs
+{
+public:
+	void* m_args;
+	class bdRunnable* m_runnable;
+	class bdThread* m_thread;
+};
+
+class bdThread
+{
+public:
+	class bdRunnable* m_runnable;
+	bdThreadArgs m_threadArgs;
+	void* m_handle;
+	bool m_isRunning;
+	unsigned int m_stackSize;
+	unsigned int m_priority;
+
+	bdThread(class bdRunnable* runnable, int priority, unsigned int stackSize);
+	~bdThread();
+	void join();
+	void wakeupJoiningThread();
+	void setThreadName(const char* name);
+	static int threadProc(bdThreadArgs* args);
+	bool start(char* args, unsigned int size);
+
+};

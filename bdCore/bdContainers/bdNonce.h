@@ -14,9 +14,16 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+template <bdInt SIZE>
+class bdNonce
+{
+public:
+    bdNChar8 m_nonce[SIZE];
+    bool m_initialised;
+
+    bdNonce();
+    void ensureCreated();
+    const bdUByte8* getData();
+};

@@ -14,9 +14,27 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+class bdSequenceNumberStore
+{
+public:
+    enum bdSequenceStatus : __int32
+    {
+        BD_SN_INVALID_SMALLER = -2,
+        BD_SN_VALID_SMALLER = -1,
+        BD_SN_INVALID_DUPLICATE = 0,
+        BD_SN_VALID_LARGER = 1,
+        BD_SN_VALID_MUCH_LARGER = 2,
+    };
+protected:
+    bdUInt32 m_bitmap;
+    bdSequenceNumber m_lastSeq;
+public:
+    bdSequenceNumberStore();
+    bdSequenceNumberStore(const bdSequenceNumber* initial);
+
+    bdSequenceStatus check(const bdSequenceNumber* thisSeq);
+    bdSequenceNumber* getLastSequenceNumber();
+    void reset(const bdSequenceNumber* initial);
+};

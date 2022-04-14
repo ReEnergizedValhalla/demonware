@@ -36,11 +36,10 @@ add_compile_options(
 )
 
 file(GLOB_RECURSE SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.inl)
-list(FILTER SRC EXCLUDE REGEX "external[\r\n\t ]*build")
+list(FILTER SRC EXCLUDE REGEX "external")
+list(FILTER SRC EXCLUDE REGEX "build")
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-
-add_executable(demonware WIN32
+add_library(demonware STATIC
     ${SRC}
 )
 

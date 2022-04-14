@@ -14,9 +14,18 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
 
-void* bdAlignedOffsetMalloc(unsigned int size, unsigned int align, unsigned int offset);
-void bdAlignedOffsetFree(void* p);
-void* bdAlignedOffsetRealloc(void* p, unsigned int origSize, unsigned int size, unsigned int align, unsigned int offset);
+class bdReferencable
+{
+public:
+	volatile int m_refCount;
+
+	~bdReferencable();
+	bdReferencable* operator=(bdReferencable* a);
+	bdInt releaseRef();
+	bdInt addRef();
+	bdInt getRefCount();
+	bdReferencable();
+	void operator delete(void* p);
+};

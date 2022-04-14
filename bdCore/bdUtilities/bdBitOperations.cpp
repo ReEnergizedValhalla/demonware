@@ -1,3 +1,21 @@
+/*
+* DemonWare
+* Copyright (c) 2020-2022 OpenIW
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, version 3.
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "bdPlatform/bdPlatform.h"
+
 #include "bdBitOperations.h"
 
 unsigned int bdBitOperations::nextPowerOf2(const unsigned int v)
@@ -14,24 +32,34 @@ unsigned int bdBitOperations::nextPowerOf2(const unsigned int v)
 
 unsigned int bdBitOperations::highBitNumber(unsigned int v)
 {
-	unsigned int v1, v2;
+	bdInt i;
 
-	v1 = (v & 0xFFFF0000) != 0 ? 0x10 : 0;
-	v2 = v >> ((v & 0xFFFF0000) != 0 ? 0x10 : 0);
-	if ((v2 & 0xFF00) != 0)
+	i = 16;
+	if ((v & 0xFFFF0000) == 0)
 	{
-		v1 |= 8u;
-		v2 >>= 8;
+		i = 0;
 	}
-	if ((v2 & 0xF0) != 0)
+	v >>= i;
+	if ((v & 0xFF00) != 0)
 	{
-		v1 |= 4u;
-		v2 >>= 4;
+		i |= 8u;
+		v >>= 8;
 	}
-	if ((v2 & 0xC) != 0)
+	if ((v & 0xF0) != 0)
 	{
-		v1 |= 2u;
-		v2 >>= 2;
+		i |= 4u;
+		v >>= 4;
 	}
-	return v1 | (v2 >> 1);
+	if ((v & 0xC) != 0)
+	{
+		i |= 2u;
+		v >>= 2;
+	}
+	return (v >> 1) | i;
+}
+
+template<typename T>
+void bdBitOperations::endianSwap(const T* src, T* dest)
+{
+	*dest = *src;
 }
