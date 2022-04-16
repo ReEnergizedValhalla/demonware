@@ -21,6 +21,12 @@
 
 static bdMutex g_MemoryThreadLock;
 
+inline void* bdMemset(void* const s, const bdInt c, const bdUWord len)
+{
+    memset(s, c, len);
+    return s;
+}
+
 inline void* bdMemcpy(void *const dest, const void *const src, const bdUWord len)
 {
     memcpy(dest,src,len);

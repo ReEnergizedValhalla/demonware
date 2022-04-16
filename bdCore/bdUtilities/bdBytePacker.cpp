@@ -14,12 +14,13 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "bdBytePacker.h"
-
 #include "bdPlatform/bdPlatform.h"
 #include "bdPlatform/bdPlatformLog/bdPlatformLog.h"
+#include "bdCore/bdUtilities/bdBitOperations.h"
 
-bool bdBytePacker::appendBuffer(char* dest, unsigned int destSize, unsigned int offset, unsigned int* newOffset, void* src, unsigned int writeSize)
+#include "bdBytePacker.h"
+
+bdBool bdBytePacker::appendBuffer(bdUByte8* dest, bdUInt destSize, bdUInt offset, bdUInt* newOffset, const void* src, bdUInt writeSize)
 {
 	*newOffset = writeSize + offset;
 
@@ -39,7 +40,7 @@ bool bdBytePacker::appendBuffer(char* dest, unsigned int destSize, unsigned int 
 	return false;
 }
 
-bool bdBytePacker::appendEncodedUInt16(char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned short value)
+bdBool bdBytePacker::appendEncodedUInt16(bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt16 value)
 {
 	char src;
 
@@ -61,7 +62,7 @@ bool bdBytePacker::appendEncodedUInt16(char* buffer, unsigned int bufferSize, un
 	}
 }
 
-bool bdBytePacker::removeBuffer(char* src, unsigned int srcSize, unsigned int offset, unsigned int* newOffset, void* dest, unsigned int readSize)
+bdBool bdBytePacker::removeBuffer(bdUByte8* src, bdUInt srcSize, bdUInt offset, bdUInt* newOffset, void* dest, bdUInt readSize)
 {
 	*newOffset = readSize + offset;
 
@@ -81,7 +82,7 @@ bool bdBytePacker::removeBuffer(char* src, unsigned int srcSize, unsigned int of
 	return false;
 }
 
-bool bdBytePacker::removeEncodedUInt16(char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned short* value)
+bdBool bdBytePacker::removeEncodedUInt16(bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt16* value)
 {
 	unsigned char firstByte = 0;
 
@@ -110,7 +111,7 @@ bool bdBytePacker::removeEncodedUInt16(char* buffer, unsigned int bufferSize, un
 	}
 }
 
-bool bdBytePacker::skipBytes(const char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned int bytes)
+bdBool bdBytePacker::skipBytes(const bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt bytes)
 {
 	*newOffset = bytes + offset;
 
@@ -121,7 +122,7 @@ bool bdBytePacker::skipBytes(const char* buffer, unsigned int bufferSize, unsign
 	return false;
 }
 
-bool bdBytePacker::rewindBytes(const char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned int bytes)
+bdBool bdBytePacker::rewindBytes(const bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt bytes)
 {
 	*newOffset = offset - bytes;
 
@@ -130,4 +131,19 @@ bool bdBytePacker::rewindBytes(const char* buffer, unsigned int bufferSize, unsi
 		return offset >= bytes;
 	}
 	return false;
+}
+
+template<typename varType>
+inline bdBool bdBytePacker::removeBasicType(const void* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, varType* var)
+{
+	bdBool read;
+	varType nvar;
+
+	read = removeBuffer(buffer, bufferSize, offset, newOffset, &nvar, sizeof(varType));
+	if (read)
+	{
+		buffer = &nvar;
+		bdBitOperations::endianSwap<varType>(&nvar, var);
+	}
+	return read;
 }

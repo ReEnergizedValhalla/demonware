@@ -19,10 +19,12 @@
 class bdBytePacker
 {
 public:
-	static bool appendBuffer(char* dest, unsigned int destSize, unsigned int offset, unsigned int* newOffset, void* src, unsigned int writeSize);
-	static bool appendEncodedUInt16(char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned short value);
-	static bool removeBuffer(char* src, unsigned int srcSize, unsigned int offset, unsigned int* newOffset, void* dest, unsigned int readSize);
-	static bool removeEncodedUInt16(char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned short* value);
-	static bool skipBytes(const char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned int bytes);
-	static bool rewindBytes(const char* buffer, unsigned int bufferSize, unsigned int offset, unsigned int* newOffset, unsigned int bytes);
+	static bdBool appendBuffer(bdUByte8* dest, bdUInt destSize, bdUInt offset, bdUInt* newOffset, const void* src, bdUInt writeSize);
+	static bdBool appendEncodedUInt16(bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt16 value);
+	static bdBool removeBuffer(bdUByte8* src, bdUInt srcSize, bdUInt offset, bdUInt* newOffset, void* dest, bdUInt readSize);
+	static bdBool removeEncodedUInt16(bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt16* value);
+	static bdBool skipBytes(const bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt bytes);
+	static bdBool rewindBytes(const bdUByte8* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, bdUInt bytes);
+	template <typename varType>
+	static bdBool removeBasicType(const void* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, varType* var);
 };
