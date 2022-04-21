@@ -1,29 +1,18 @@
-/*
-* DemonWare
-* Copyright (c) 2020-2022 OpenIW
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, version 3.
-*
-* This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
 template<typename T>
 class bdArray
 {
-public:
+protected:
     T* m_data;
-    unsigned int m_capacity;
-    unsigned int m_size;
-
+    bdUInt m_capacity;
+    bdUInt m_size;
+public:
+    bdArray();
+    bdArray(const bdUInt capacity);
+    bdArray(const bdArray<T>* a);
+    bdUInt getCapacity();
     bdUInt getSize();
     T* uninitializedCopy(const bdArray<T>* a);
     void clear();
@@ -38,3 +27,5 @@ public:
     T* operator[](const bdUInt i);
     void operator=(bdArray<T>* a);
 };
+
+#include "bdArray.inl"

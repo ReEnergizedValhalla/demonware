@@ -1,6 +1,7 @@
-#include "bdDTLSInit.h"
+#include "bdPlatform/bdPlatform.h"
+#include "bdCore/bdUtilities/bdbytepacker.h"
 
-#include <bdCore/bdUtilities/bdbytepacker.h>
+#include "bdDTLSInit.h"
 
 bdDTLSInit::bdDTLSInit() : bdDTLSHeader()
 {
@@ -30,10 +31,10 @@ bool bdDTLSInit::serialize(void* data, unsigned int size, unsigned int offset, u
 	if (bdDTLSHeader::serialize(data, size, offset, newOffset))
 	{
 		offset = *newOffset;
-		if (bdBytePacker::appendBuffer((char*)data, size, offset, newOffset, &m_initTag, sizeof(m_initTag)))
+		if (bdBytePacker::appendBuffer(reinterpret_cast<bdUByte8*>(data), size, offset, newOffset, &m_initTag, sizeof(m_initTag)))
 		{
 			offset = *newOffset;
-			if (bdBytePacker::appendBuffer((char*)data, size, offset, newOffset, &m_secID, sizeof(m_secID)))
+			if (bdBytePacker::appendBuffer(reinterpret_cast<bdUByte8*>(data), size, offset, newOffset, &m_secID, sizeof(m_secID)))
 			{
 				return true;
 			}
@@ -49,10 +50,10 @@ bool bdDTLSInit::deserialize(void* data, unsigned int size, unsigned int offset,
 	if (bdDTLSHeader::deserialize(data, size, offset, newOffset))
 	{
 		offset = *newOffset;
-		if (bdBytePacker::removeBuffer((char*)data, size, offset, newOffset, &m_initTag, sizeof(m_initTag)))
+		if (bdBytePacker::removeBuffer(reinterpret_cast<bdUByte8*>(data), size, offset, newOffset, &m_initTag, sizeof(m_initTag)))
 		{
 			offset = *newOffset;
-			if (bdBytePacker::removeBuffer((char*)data, size, offset, newOffset, &m_secID, sizeof(m_secID)))
+			if (bdBytePacker::removeBuffer(reinterpret_cast<bdUByte8*>(data), size, offset, newOffset, &m_secID, sizeof(m_secID)))
 			{
 				return 1;
 			}

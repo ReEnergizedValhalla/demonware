@@ -1,27 +1,4 @@
-/*
-* DemonWare
-* Copyright (c) 2020-2022 OpenIW
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, version 3.
-*
-* This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-#include "bdPlatform/bdPlatform.h"
-#include "bdCore/bdMemory/bdMemory.h"
-#include "bdCore/bdUtilities/bdBitOperations.h"
-#include "bdPlatform/bdPlatformLog/bdplatformlog.h"
-
-#include "bdHashMap.h"
-
-// bdHashMap::Node
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 template<typename hashClass, typename dataType, typename keyType>
 inline bdHashMap<hashClass, dataType, keyType>::Node::Node()
@@ -37,8 +14,6 @@ template<typename hashClass, typename dataType, typename keyType>
 inline bdHashMap<hashClass, dataType, keyType>::Node::~Node()
 {
 }
-
-// bdHashMap
 
 template<typename hashClass, typename dataType, typename keyType>
 inline bdHashMap<hashClass, dataType, keyType>::bdHashMap()
@@ -58,45 +33,6 @@ inline bdHashMap<hashClass, dataType, keyType>::~bdHashMap()
 {
     clear();
     bdDeallocate<bdHashMap<hashClass, dataType, keyType>::Node*>(m_map);
-}
-
-template<typename hashClass, typename dataType, typename keyType>
-inline bdHashMap<hashClass,dataType,keyType>::Iterator bdHashMap<hashClass, dataType, keyType>::getIterator()
-{
-    bdUInt numIter;
-
-    if (!m_size)
-    {
-        return NULL;
-    }
-    for (numIter = 0; numIter < m_capacity, m_map[numIter] == NULL; ++numIter);
-    if (m_map[numIter])
-    {
-        ++m_numIterators;
-    }
-    return m_map[numIter];
-
-}
-
-template<typename hashClass, typename dataType, typename keyType>
-inline bdHashMap<hashClass, dataType, keyType>::Iterator bdHashMap<hashClass, dataType, keyType>::getIterator(const keyType* key)
-{
-    Node* n;
-
-    if (!m_size)
-    {
-        return NULL;
-    }
-    hash = m_hashClass.getHash(key);
-    for (n = m_map[getHashIndex(hash)]; n; n = n->m_next)
-    {
-        if (key == &n->m_key)
-        {
-            ++m_numIterators;
-            return n;
-        }
-    }
-    return NULL;
 }
 
 template<typename hashClass, typename dataType, typename keyType>

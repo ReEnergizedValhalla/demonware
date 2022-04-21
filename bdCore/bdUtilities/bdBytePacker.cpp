@@ -1,24 +1,5 @@
-/*
-* DemonWare
-* Copyright (c) 2020-2022 OpenIW
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, version 3.
-*
-* This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-#include "bdPlatform/bdPlatform.h"
-#include "bdPlatform/bdPlatformLog/bdPlatformLog.h"
-#include "bdCore/bdUtilities/bdBitOperations.h"
-
-#include "bdBytePacker.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "bdCore/bdCore.h"
 
 bdBool bdBytePacker::appendBuffer(bdUByte8* dest, bdUInt destSize, bdUInt offset, bdUInt* newOffset, const void* src, bdUInt writeSize)
 {
@@ -62,7 +43,7 @@ bdBool bdBytePacker::appendEncodedUInt16(bdUByte8* buffer, bdUInt bufferSize, bd
 	}
 }
 
-bdBool bdBytePacker::removeBuffer(bdUByte8* src, bdUInt srcSize, bdUInt offset, bdUInt* newOffset, void* dest, bdUInt readSize)
+bdBool bdBytePacker::removeBuffer(const bdUByte8* src, bdUInt srcSize, bdUInt offset, bdUInt* newOffset, void* dest, bdUInt readSize)
 {
 	*newOffset = readSize + offset;
 
@@ -146,4 +127,13 @@ inline bdBool bdBytePacker::removeBasicType(const void* buffer, bdUInt bufferSiz
 		bdBitOperations::endianSwap<varType>(&nvar, var);
 	}
 	return read;
+}
+
+template<typename varType>
+bdBool bdBytePacker::appendBasicType(const void* buffer, bdUInt bufferSize, bdUInt offset, bdUInt* newOffset, varType* var)
+{
+	varType nvar;
+
+	bdBitOperations::endianSwap<varType>(var, &nvar);
+	return appendBuffer(buffer, bufferSize, offset, newOffset, &nvar, sizeof(varType));
 }

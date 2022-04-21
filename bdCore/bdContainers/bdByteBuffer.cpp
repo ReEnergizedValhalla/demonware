@@ -1,30 +1,5 @@
-/*
-* DemonWare
-* Copyright (c) 2020-2022 OpenIW
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, version 3.
-*
-* This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-#include "bdPlatform/bdPlatform.h"
-#include "bdPlatform/bdPlatformString/bdplatformstring.h"
-#include "bdPlatform/bdPlatformLog/bdplatformlog.h"
-#include "bdCore/bdContainers/bdBitBufferTypes.h"
-#include "bdCore/bdMemory/bdMemory.h"
-#include "bdCore/bdReference/bdReferencable.h"
-#include "bdCore/bdUtilities/bdBitOperations.h"
-#include "bdCore/bdContainers/bdBitBuffer.h"
-#include "bdCore/bdUtilities/bdBytePacker.h"
-
-#include "bdByteBuffer.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "bdCore/bdCore.h"
 
 bdByteBuffer::bdByteBuffer() : bdReferencable()
 {

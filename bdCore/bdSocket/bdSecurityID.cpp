@@ -1,12 +1,17 @@
-#include "bdSecurityID.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "bdCore/bdCore.h"
 
 bdSecurityID::bdSecurityID()
 {
-	*(unsigned int*)ab = 0x1010101;
-	*(unsigned int*)ab[4] = 0x1010101;
+	bdMemset(this, 1, sizeof(bdSecurityID));
 }
 
-bdSecurityID::bdSecurityID(bdSecurityID* other)
+bdSecurityID::bdSecurityID(const bdSecurityID* other)
 {
 	*this = *other;
+}
+
+bdBool bdSecurityID::operator==(const bdSecurityID* other)
+{
+	return bdMemcmp(this, other, sizeof(bdSecurityID)) == 0;
 }

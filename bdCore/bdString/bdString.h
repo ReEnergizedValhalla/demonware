@@ -14,11 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 #pragma once
-
-#include "bdPlatform/bdPlatform.h"
-#include "bdCore/bdMemory/bdmemory.h"
 
 struct bdStringData
 {
@@ -26,6 +22,8 @@ struct bdStringData
     unsigned int m_length;
     unsigned int m_capacity;
 };
+
+static bdNChar8* g_emptyString;
 
 struct bdEmptyStringStatic
 {
@@ -41,15 +39,9 @@ struct bdEmptyStringStatic
     }
 };
 
-inline bdUWord bdStrlen(const bdNChar8* const s)
-{
-    return strlen(s);
-}
-
-bdNChar8* g_emptyString;
 static bdEmptyStringStatic* g_emptyStringData;
 
-bdStringData* getEmptyStringData()
+static bdStringData* getEmptyStringData()
 {
     *g_emptyString = 0;
     return &g_emptyStringData->m_stringData;

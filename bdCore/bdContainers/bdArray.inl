@@ -1,11 +1,39 @@
-#include <bdCore/bdmemory/bdmemory.h>
-
-#include "bdArray.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 template<typename T>
-bdUInt bdArray<T>::getSize()
+inline bdArray<T>::bdArray()
 {
-    return this->m_size;
+}
+
+template<typename T>
+inline bdArray<T>::bdArray(const bdUInt capacity)
+{
+    m_data = NULL;
+    m_capacity = capacity;
+    if (m_capacity)
+    {
+        m_data = bdAllocate<T>(m_capacity);
+    }
+}
+
+template<typename T>
+inline bdArray<T>::bdArray(const bdArray<T>* a)
+{
+    m_capacity = a->m_capacity;
+    m_size = a->m_size;
+    m_data = uninitializedCopy(a);
+}
+
+template<typename T>
+inline bdUInt bdArray<T>::getCapacity()
+{
+    return m_capacity;
+}
+
+template<typename T>
+inline bdUInt bdArray<T>::getSize()
+{
+    return m_size;
 }
 
 template<typename T>
@@ -72,9 +100,9 @@ void bdArray<T>::copyConstructArrayArray(T* dest, const T* src, unsigned int n)
 template<typename T>
 void bdArray<T>::destruct(T* src, bdUInt n)
 {
-    for (bdUInt i = 0 i < n; ++i)
+    for (bdUInt i = 0; i < n; ++i)
     {
-        delete src[i];
+        delete &src[i];
     }
 }
 

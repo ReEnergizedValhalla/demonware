@@ -1,31 +1,34 @@
-#include "bdPlatformTrulyRandom.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "bdPlatform/bdPlatform.h"
 
-#include <bdPlatform/bdPlatform.h>
-
-static HCRYPTPROV phProv;
+HCRYPTPROV phProv;
 
 bdTrulyRandomImpl::bdTrulyRandomImpl()
 {
-	CryptAcquireContext(&phProv, 0, 0, 1, 0xF0000000);
+    CryptAcquireContext(&phProv, 0, 0, 1, 0xF0000000);
 }
 
 bdTrulyRandomImpl::~bdTrulyRandomImpl()
 {
-	CryptReleaseContext(phProv, 0);
+    CryptReleaseContext(phProv, 0);
 }
 
-int bdTrulyRandomImpl::getRandomUInt()
+bdUWord bdTrulyRandomImpl::getRandomUInt()
 {
-	return 0;
+    bdUWord pbBuffer;
+
+    getRandomUByte8(reinterpret_cast<byte*>(&pbBuffer), sizeof(bdUWord));
+    return pbBuffer;
 }
 
-void bdTrulyRandomImpl::getRandomUByte8()
+void bdTrulyRandomImpl::getRandomUByte8(byte* pbBuffer, bdUWord dwLen)
 {
+    bdGetRandomUChar8(pbBuffer, dwLen);
 }
 
-static bdTrulyRandomImpl s_randomInit = bdTrulyRandomImpl();
+bdTrulyRandomImpl s_randomInit = bdTrulyRandomImpl();
 
 void bdGetRandomUChar8(unsigned char* in, int length)
 {
-	CryptGenRandom(phProv, length, in);
+    CryptGenRandom(phProv, length, in);
 }

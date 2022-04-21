@@ -1,7 +1,5 @@
-#include "bdInetAddr.h"
-
-#include "bdPlatform/bdPlatform.h"
-#include "bdCore/bdUtilities/bdBytePacker.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "bdCore/bdCore.h"
 
 bool bdInetAddr::operator==(bdInetAddr* comp)
 {
@@ -26,6 +24,14 @@ bdInetAddr bdInetAddr::All()
 	return InetAddr;
 }
 
+bdInetAddr bdInetAddr::Any()
+{
+	bdInetAddr retstr;
+
+	retstr.set((bdUInt)0);
+	return retstr;
+}
+
 bdInetAddr::bdInetAddr()
 {
 }
@@ -35,7 +41,7 @@ bdInetAddr::~bdInetAddr()
 	m_addr.inUn.m_iaddr = 0xDEADBEEF;
 }
 
-bdInetAddr::bdInetAddr(bdInetAddr* other)
+bdInetAddr::bdInetAddr(const bdInetAddr* other)
 {
 	*this = *other;
 }
@@ -48,6 +54,11 @@ bdInetAddr::bdInetAddr(const char* address)
 bdInetAddr::bdInetAddr(unsigned int address)
 {
 	set(address);
+}
+
+bdInetAddr::bdInetAddr(bdInAddr address)
+{
+	m_addr = address;
 }
 
 void bdInetAddr::set(const bdInetAddr* other)
@@ -86,12 +97,12 @@ bdInAddr bdInetAddr::getInAddr()
 	return m_addr;
 }
 
-bool bdInetAddr::serialize(char* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
+bool bdInetAddr::serialize(bdUByte8* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
 {
 	return bdBytePacker::appendBuffer(data, size, offset, newOffset, &m_addr, sizeof(m_addr));
 }
 
-bool bdInetAddr::deserialize(char* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
+bool bdInetAddr::deserialize(const bdUByte8* data, unsigned int size, unsigned int offset, unsigned int* newOffset)
 {
 	return bdBytePacker::removeBuffer(data, size, offset, newOffset, &m_addr, sizeof(m_addr));
 }
