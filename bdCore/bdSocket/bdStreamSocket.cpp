@@ -19,11 +19,13 @@ bdBool bdStreamSocket::create(bdBool blocking)
 bdSocketStatusCode bdStreamSocket::bind(const bdPort port)
 {
     // Not used
+    return BD_NET_SUCCESS;
 }
 
 bdSocketStatusCode bdStreamSocket::bind(bdAddr* addr)
 {
     // Not used
+    return BD_NET_SUCCESS;
 }
 
 bdSocketStatusCode bdStreamSocket::connect(bdAddr* addr)
